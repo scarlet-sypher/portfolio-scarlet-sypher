@@ -5,7 +5,7 @@ function App() {
     window.location.href = "https://temp-portfolio-y7kh.vercel.app/";
   }, []);
 
-  return null; // nothing renders
+  return null;
 }
 
 export default App;
