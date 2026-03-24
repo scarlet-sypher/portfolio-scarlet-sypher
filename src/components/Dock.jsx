@@ -1,22 +1,83 @@
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
-import { Monitor, Music, Globe, Palette, Terminal, MessageCircle } from "lucide-react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import {
+  Monitor,
+  Music,
+  Globe,
+  Palette,
+  Terminal,
+  MessageCircle,
+} from "lucide-react";
 
-import Home from "../../pages/Home";
-import MusicPage from "../../pages/Music";
-import Chrome from "../../pages/Chrome";
-import Photoshop from "../../pages/Photoshop";
-import TerminalPage from "../../pages/Terminal";
-import Message from "../../pages/Message";
+import Home from "../Pages/Home";
+import MusicPage from "../Pages/Music";
+import Chrome from "../Pages/Chrome";
+import Photoshop from "../Pages/Photoshop";
+import TerminalPage from "../Pages/Terminal";
+import Message from "../Pages/Message";
 import Window from "./Window";
 
 const APPS_CONFIG = [
-  { key: "home", Icon: Monitor, label: "Home", color: "rgba(48,138,218,0.9)", Page: Home, pos: { x: 180, y: 60 }, size: { width: 680, height: 420 } },
-  { key: "music", Icon: Music, label: "Spotify", color: "rgba(28,202,88,0.9)", Page: MusicPage, pos: { x: 200, y: 70 }, size: { width: 680, height: 460 } },
-  { key: "chrome", Icon: Globe, label: "Chrome", color: "rgba(232,82,50,0.9)", Page: Chrome, pos: { x: 160, y: 55 }, size: { width: 720, height: 500 } },
-  { key: "photoshop", Icon: Palette, label: "Photoshop", color: "rgba(46,158,255,0.9)", Page: Photoshop, pos: { x: 140, y: 50 }, size: { width: 760, height: 520 } },
-  { key: "terminal", Icon: Terminal, label: "Terminal", color: "rgba(145,98,255,0.9)", Page: TerminalPage, pos: { x: 220, y: 80 }, size: { width: 640, height: 420 } },
-  { key: "messages", Icon: MessageCircle, label: "Messages", color: "rgba(86,98,242,0.9)", Page: Message, pos: { x: 190, y: 65 }, size: { width: 680, height: 480 } },
+  {
+    key: "home",
+    Icon: Monitor,
+    label: "Home",
+    color: "rgba(48,138,218,0.9)",
+    Page: Home,
+    pos: { x: 180, y: 60 },
+    size: { width: 680, height: 420 },
+  },
+  {
+    key: "music",
+    Icon: Music,
+    label: "Spotify",
+    color: "rgba(28,202,88,0.9)",
+    Page: MusicPage,
+    pos: { x: 200, y: 70 },
+    size: { width: 680, height: 460 },
+  },
+  {
+    key: "chrome",
+    Icon: Globe,
+    label: "Chrome",
+    color: "rgba(232,82,50,0.9)",
+    Page: Chrome,
+    pos: { x: 160, y: 55 },
+    size: { width: 720, height: 500 },
+  },
+  {
+    key: "photoshop",
+    Icon: Palette,
+    label: "Photoshop",
+    color: "rgba(46,158,255,0.9)",
+    Page: Photoshop,
+    pos: { x: 140, y: 50 },
+    size: { width: 760, height: 520 },
+  },
+  {
+    key: "terminal",
+    Icon: Terminal,
+    label: "Terminal",
+    color: "rgba(145,98,255,0.9)",
+    Page: TerminalPage,
+    pos: { x: 220, y: 80 },
+    size: { width: 640, height: 420 },
+  },
+  {
+    key: "messages",
+    Icon: MessageCircle,
+    label: "Messages",
+    color: "rgba(86,98,242,0.9)",
+    Page: Message,
+    pos: { x: 190, y: 65 },
+    size: { width: 680, height: 480 },
+  },
 ];
 
 const DOCK_BASE_SIZE = 44;
@@ -106,7 +167,8 @@ export default function Dock() {
           backdropFilter: "blur(28px) saturate(180%)",
           WebkitBackdropFilter: "blur(28px) saturate(180%)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: "0 4px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.1)",
+          boxShadow:
+            "0 4px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.1)",
           padding: "10px 24px 6px 24px",
           display: "flex",
           alignItems: "flex-end",
@@ -142,12 +204,23 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
   }
 
   const distance = useTransform(mouseX, (val) => {
-    const bounds = iconRef.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    const bounds = iconRef.current?.getBoundingClientRect() ?? {
+      x: 0,
+      width: 0,
+    };
     return val - bounds.x - bounds.width / 2;
   });
 
-  const scaleTransform = useTransform(distance, [-ANIMATION_DISTANCE, 0, ANIMATION_DISTANCE], [1, DOCK_MAX_SIZE / DOCK_BASE_SIZE, 1]);
-  const scale = useSpring(scaleTransform, { stiffness: 320, damping: 22, mass: 0.5 });
+  const scaleTransform = useTransform(
+    distance,
+    [-ANIMATION_DISTANCE, 0, ANIMATION_DISTANCE],
+    [1, DOCK_MAX_SIZE / DOCK_BASE_SIZE, 1],
+  );
+  const scale = useSpring(scaleTransform, {
+    stiffness: 320,
+    damping: 22,
+    mass: 0.5,
+  });
 
   return (
     <motion.div
@@ -168,7 +241,14 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
         {item.label}
       </span>
 
-      <motion.div style={{ scale, transformOrigin: "bottom", display: "flex", alignItems: "flex-end" }}>
+      <motion.div
+        style={{
+          scale,
+          transformOrigin: "bottom",
+          display: "flex",
+          alignItems: "flex-end",
+        }}
+      >
         <motion.div
           className="flex items-center justify-center rounded-[14px]"
           style={{
@@ -199,7 +279,9 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
               width: 4,
               height: 4,
               borderRadius: "50%",
-              background: isMinimized ? "rgba(255, 190, 50, 0.9)" : "rgba(255, 255, 255, 0.7)",
+              background: isMinimized
+                ? "rgba(255, 190, 50, 0.9)"
+                : "rgba(255, 255, 255, 0.7)",
               marginTop: 3,
             }}
           />

@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play, Pause, SkipBack, SkipForward, Heart, Repeat, Shuffle } from "lucide-react";
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Heart,
+  Repeat,
+  Shuffle,
+} from "lucide-react";
 
-import gojo from "../../assets/gojo.jpeg";
-import kakashi from "../../assets/kakashi.jpeg";
-import naruto from "../../assets/naruto.jpeg";
-import makima from "../../assets/makima.jpeg";
+import gojo from "../assets/gojo.jpeg";
+import kakashi from "../assets/kakashi.jpeg";
+import naruto from "../assets/naruto.jpeg";
+import makima from "../assets/makima.jpeg";
 
 const AVATARS = [makima, kakashi, naruto, gojo];
 
@@ -39,8 +47,11 @@ function MusicPlayer() {
             Unknown Artist
           </div>
         </div>
-        
-        <motion.button onClick={() => setIsLiked((prev) => !prev)} whileTap={{ scale: 0.8 }}>
+
+        <motion.button
+          onClick={() => setIsLiked((prev) => !prev)}
+          whileTap={{ scale: 0.8 }}
+        >
           <Heart
             size={13}
             style={{
@@ -58,7 +69,11 @@ function MusicPlayer() {
       >
         <div
           className="rounded-full"
-          style={{ width: "42%", height: "100%", background: "rgba(255, 155, 50, 0.9)" }}
+          style={{
+            width: "42%",
+            height: "100%",
+            background: "rgba(255, 155, 50, 0.9)",
+          }}
         />
       </div>
 
@@ -66,10 +81,13 @@ function MusicPlayer() {
         <button className="opacity-25 hover:opacity-55 transition-opacity">
           <Repeat size={11} />
         </button>
-        <motion.button className="opacity-45 hover:opacity-85 transition-opacity" whileTap={{ scale: 0.85 }}>
+        <motion.button
+          className="opacity-45 hover:opacity-85 transition-opacity"
+          whileTap={{ scale: 0.85 }}
+        >
           <SkipBack size={13} />
         </motion.button>
-        
+
         <motion.button
           onClick={() => setIsPlaying((prev) => !prev)}
           className="flex items-center justify-center rounded-full"
@@ -84,10 +102,17 @@ function MusicPlayer() {
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 22 }}
         >
-          {isPlaying ? <Pause size={12} /> : <Play size={12} className="ml-px" />}
+          {isPlaying ? (
+            <Pause size={12} />
+          ) : (
+            <Play size={12} className="ml-px" />
+          )}
         </motion.button>
-        
-        <motion.button className="opacity-45 hover:opacity-85 transition-opacity" whileTap={{ scale: 0.85 }}>
+
+        <motion.button
+          className="opacity-45 hover:opacity-85 transition-opacity"
+          whileTap={{ scale: 0.85 }}
+        >
           <SkipForward size={13} />
         </motion.button>
         <button className="opacity-25 hover:opacity-55 transition-opacity">

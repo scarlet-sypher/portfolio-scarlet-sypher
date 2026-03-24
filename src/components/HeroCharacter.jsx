@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import heroAvatar from "../../assets/zoro.png";
+import heroAvatar from "../assets/zoro.png";
 
 export default function HeroCharacter() {
   return (
@@ -28,7 +28,8 @@ export default function HeroCharacter() {
           transform: "translateX(-50%)",
           width: 320,
           height: 220,
-          background: "radial-gradient(ellipse at 50% 90%, rgba(200, 110, 20, 0.38) 0%, rgba(180, 80, 10, 0.18) 45%, transparent 75%)",
+          background:
+            "radial-gradient(ellipse at 50% 90%, rgba(200, 110, 20, 0.38) 0%, rgba(180, 80, 10, 0.18) 45%, transparent 75%)",
           filter: "blur(18px)",
           pointerEvents: "none",
         }}
@@ -42,7 +43,8 @@ export default function HeroCharacter() {
           width: "auto",
           objectFit: "contain",
           objectPosition: "bottom center",
-          filter: "drop-shadow(0 -8px 32px rgba(200, 100, 10, 0.35)) drop-shadow(0 12px 24px rgba(0,0,0,0.8))",
+          filter:
+            "drop-shadow(0 -8px 32px rgba(200, 100, 10, 0.35)) drop-shadow(0 12px 24px rgba(0,0,0,0.8))",
         }}
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
