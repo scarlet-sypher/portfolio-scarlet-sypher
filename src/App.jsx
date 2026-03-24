@@ -1,7 +1,7 @@
-import LeftSidebar from "./components/new/LeftSidebar";
-import MainPanel from "./components/new/MainPanel";
-import HeroCharacter from "./components/new/HeroCharacter";
-import Dock from "./components/new/Dock";
+import LeftSidebar from "./components/LeftSidebar";
+import MainPanel from "./components/MainPanel";
+import HeroCharacter from "./components/HeroCharacter";
+import Dock from "./components/Dock";
 import backgroundImage from "./assets/bg.png";
 
 export default function App() {
