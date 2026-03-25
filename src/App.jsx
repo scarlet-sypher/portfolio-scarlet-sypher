@@ -17,7 +17,7 @@ export default function App() {
       />
       <div className="absolute inset-0 bg-black/20" />
 
-      <ClockOverlay />
+      {/* <ClockOverlay /> */}
 
       <MainPanel />
       <HeroCharacter />
