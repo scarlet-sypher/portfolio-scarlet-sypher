@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import {
   User,
-  Wifi,
   Target,
   Zap,
   Brain,
@@ -15,20 +15,21 @@ import {
   RotateCcw,
 } from "lucide-react";
 
+// ─── Data ────────────────────────────────────────────────────────────────────
+
 const STATUS_ITEMS = [
-  { icon: User, label: "Identity", value: "Ayush Jha", color: "#e2e8f0" },
-  { icon: Wifi, label: "Presence", value: "Online", color: "#34d399" },
+  { icon: User, label: "Identity", value: "Ayush Jha", color: "#93c5fd" },
   {
     icon: Target,
     label: "Intent",
     value: "Build • Scale • Optimize",
-    color: "#fb923c",
+    color: "#f97316",
   },
-  { icon: Zap, label: "State", value: "Focused Execution", color: "#a78bfa" },
+  { icon: Zap, label: "State", value: "Focused Execution", color: "#c084fc" },
 ];
 
 const MINDSET_ITEMS = [
-  { icon: Brain, label: "Mindset", value: "Adaptive", color: "#38bdf8" },
+  { icon: Brain, label: "Mindset", value: "Adaptive", color: "#22d3ee" },
   { icon: Focus, label: "Discipline", value: "Deep Focus", color: "#f472b6" },
   {
     icon: TrendingUp,
@@ -43,13 +44,13 @@ const DOMAIN_ITEMS = [
     icon: Layers,
     label: "MERN Architecture",
     value: "Scalable Platforms",
-    color: "#34d399",
+    color: "#4ade80",
   },
   {
     icon: GitBranch,
     label: "Data Structures",
     value: "Logical Precision",
-    color: "#38bdf8",
+    color: "#60a5fa",
   },
   {
     icon: Network,
@@ -61,44 +62,151 @@ const DOMAIN_ITEMS = [
     icon: Cpu,
     label: "System Design",
     value: "Performance Vision",
-    color: "#fb923c",
+    color: "#fbbf24",
   },
 ];
 
-// Section color map for themed accents
+const CYCLE_WORDS = ["Observe", "Design", "Implement", "Refine"];
+const CYCLE_COLORS = ["#60a5fa", "#a78bfa", "#4ade80", "#fb923c"];
+
 const SECTION_COLORS = {
-  identity: "#38bdf8",
+  identity: "#60a5fa",
   mindset: "#a78bfa",
-  domains: "#34d399",
-  vector: "#34d399",
+  domains: "#4ade80",
+  vector: "#4ade80",
   cycle: "#fb923c",
 };
 
-function SectionLabel({ children, accentColor = "rgba(255,255,255,0.28)" }) {
+// ─── Loading dots ─────────────────────────────────────────────────────────────
+
+function LoadingScreen({ onDone }) {
+  const [dots, setDots] = useState(1);
+  const [phase, setPhase] = useState("typing"); // typing | fading
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((d) => {
+        if (d >= 3) {
+          clearInterval(interval);
+          setTimeout(() => setPhase("fading"), 300);
+          setTimeout(onDone, 900);
+          return 3;
+        }
+        return d + 1;
+      });
+    }, 900);
+    return () => clearInterval(interval);
+  }, [onDone]);
+
+  return (
+    <motion.div
+      className="absolute inset-0 flex flex-col items-start justify-center pl-4"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: phase === "fading" ? 0 : 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      <span
+        style={{
+          fontFamily: "'Courier New', monospace",
+          fontSize: 10,
+          color: "rgba(255,255,255,0.35)",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+        }}
+      >
+        Initializing{".".repeat(dots)}
+      </span>
+      <motion.div
+        className="mt-3 h-px"
+        style={{ background: "rgba(96,165,250,0.35)", width: 0 }}
+        animate={{ width: phase === "fading" ? "100%" : `${(dots / 3) * 60}%` }}
+        transition={{ duration: 0.38, ease: "easeOut" }}
+      />
+    </motion.div>
+  );
+}
+
+// ─── Typing text ──────────────────────────────────────────────────────────────
+
+function TypingText({
+  text,
+  startDelay = 0,
+  color,
+  fontSize = 10,
+  fontWeight = 600,
+  style = {},
+}) {
+  const [displayed, setDisplayed] = useState("");
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setStarted(true), startDelay);
+    return () => clearTimeout(t);
+  }, [startDelay]);
+
+  useEffect(() => {
+    if (!started) return;
+    let i = 0;
+    setDisplayed("");
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(interval);
+    }, 22);
+    return () => clearInterval(interval);
+  }, [started, text]);
+
+  return (
+    <span
+      style={{
+        fontFamily: "'Courier New', monospace",
+        fontSize,
+        color,
+        fontWeight,
+        ...style,
+      }}
+    >
+      {displayed}
+      {started && displayed.length < text.length && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity }}
+          style={{ color: "rgba(255,255,255,0.4)", marginLeft: 1 }}
+        >
+          |
+        </motion.span>
+      )}
+    </span>
+  );
+}
+
+// ─── Section label ────────────────────────────────────────────────────────────
+
+function SectionLabel({ children, accentColor, startDelay }) {
   return (
     <motion.div
       className="flex items-center gap-2 mt-4 mb-2 first:mt-0"
-      animate={{ opacity: [0.7, 1, 0.7] }}
-      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: startDelay / 1000, duration: 0.3 }}
     >
       <div
         style={{
-          width: 3,
-          height: 12,
+          width: 2,
+          height: 11,
           borderRadius: 2,
           background: accentColor,
-          boxShadow: `0 0 8px ${accentColor}88`,
           flexShrink: 0,
         }}
       />
       <span
-        className="text-[9px] tracking-[0.34em] uppercase"
         style={{
-          color: accentColor,
           fontFamily: "'Courier New', monospace",
+          fontSize: 9,
+          letterSpacing: "0.3em",
+          textTransform: "uppercase",
+          color: accentColor,
           fontWeight: 700,
-          letterSpacing: "0.34em",
-          textShadow: `0 0 12px ${accentColor}55`,
         }}
       >
         {children}
@@ -107,22 +215,24 @@ function SectionLabel({ children, accentColor = "rgba(255,255,255,0.28)" }) {
         style={{
           flex: 1,
           height: "1px",
-          background: `linear-gradient(to right, ${accentColor}44, transparent)`,
+          background: `linear-gradient(to right, ${accentColor}30, transparent)`,
         }}
       />
     </motion.div>
   );
 }
 
-function StatusRow({ icon: Icon, label, value, color, delay = 0 }) {
+// ─── Status row ───────────────────────────────────────────────────────────────
+
+function StatusRow({ icon: Icon, label, value, color, startDelay }) {
   return (
     <motion.div
       className="flex items-center gap-2.5 py-[4px]"
-      initial={{ opacity: 0, x: -6 }}
+      initial={{ opacity: 0, x: -4 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay, duration: 0.35, ease: "easeOut" }}
+      transition={{ delay: startDelay / 1000, duration: 0.28, ease: "easeOut" }}
     >
-      <motion.div
+      <div
         style={{
           width: 18,
           height: 18,
@@ -130,52 +240,44 @@ function StatusRow({ icon: Icon, label, value, color, delay = 0 }) {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 4,
-          background: `${color}14`,
-          border: `1px solid ${color}30`,
+          background: `${color}18`,
+          border: `1px solid ${color}28`,
           flexShrink: 0,
-        }}
-        animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{
-          duration: 2.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay * 0.5,
         }}
       >
         <Icon size={9} color={color} strokeWidth={2.2} />
-      </motion.div>
+      </div>
       <span
-        className="text-[10px] shrink-0"
         style={{
-          color: "rgba(255,255,255,0.38)",
           fontFamily: "'Courier New', monospace",
-          width: "66px",
-          fontWeight: 500,
+          fontSize: 10,
+          color: color,
+          width: 66,
+          fontWeight: 700,
+          flexShrink: 0,
         }}
       >
         {label}
       </span>
-      <span
-        className="text-[10px]"
-        style={{
-          color: "rgba(255,255,255,0.85)",
-          fontFamily: "'Courier New', monospace",
-          fontWeight: 600,
-          letterSpacing: "0.02em",
-        }}
-      >
-        {value}
-      </span>
+      <TypingText
+        text={value}
+        startDelay={startDelay + 60}
+        color="rgba(255,255,255,0.88)"
+        fontSize={10}
+        fontWeight={600}
+      />
     </motion.div>
   );
 }
+
+// ─── Domain row ───────────────────────────────────────────────────────────────
 
 function DomainRow({
   icon: Icon,
   label,
   value,
   color,
-  delay = 0,
+  startDelay,
   prefix = "├─",
 }) {
   return (
@@ -183,11 +285,11 @@ function DomainRow({
       className="flex items-center gap-2 py-[3.5px]"
       initial={{ opacity: 0, x: -4 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay, duration: 0.3 }}
+      transition={{ delay: startDelay / 1000, duration: 0.26 }}
     >
       <span
         style={{
-          color: "rgba(255,255,255,0.22)",
+          color: "rgba(255,255,255,0.2)",
           fontFamily: "'Courier New', monospace",
           fontSize: 9,
           flexShrink: 0,
@@ -195,38 +297,30 @@ function DomainRow({
       >
         {prefix}
       </span>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-        }}
-      >
-        <Icon
-          size={9}
-          color={color}
-          strokeWidth={2.2}
-          style={{ filter: `drop-shadow(0 0 4px ${color}88)` }}
-        />
-      </div>
+      <Icon
+        size={9}
+        color={color}
+        strokeWidth={2.2}
+        style={{ flexShrink: 0 }}
+      />
       <span
-        className="text-[9.5px]"
         style={{
-          color,
           fontFamily: "'Courier New', monospace",
+          fontSize: 9.5,
+          color,
           fontWeight: 600,
           minWidth: 108,
-          textShadow: `0 0 10px ${color}44`,
+          flexShrink: 0,
         }}
       >
         {label}
       </span>
       <span
-        className="text-[9px]"
         style={{
-          color: "rgba(255,255,255,0.42)",
           fontFamily: "'Courier New', monospace",
+          fontSize: 9,
+          color: "white",
+          fontWeight: 200,
         }}
       >
         {value}
@@ -235,184 +329,231 @@ function DomainRow({
   );
 }
 
+// ─── Main component ───────────────────────────────────────────────────────────
+
 export default function EngineerStatus() {
+  const [loaded, setLoaded] = useState(false);
+
+  // Staggered reveal timing (ms)
+  const T = {
+    identity_label: 0,
+    identity_rows: [80, 160, 240],
+    mindset_label: 380,
+    mindset_rows: [460, 540, 620],
+    domains_label: 760,
+    domain_rows: [840, 920, 1000, 1080],
+    vector_label: 1200,
+    vector_text: 1280,
+    cycle_label: 1400,
+    cycle_words: 1480,
+  };
+
   return (
     <motion.div
-      className="flex flex-col shrink-0"
+      className="flex flex-col shrink-0 min-h-0"
       style={{
-        width: "320px",
-        borderRight: "1px solid rgba(255, 255, 255, 0.09)",
-        paddingRight: "16px",
+        width: "clamp(240px, 28vw, 320px)",
+        borderRight: "1px solid rgba(255,255,255,0.07)",
+        paddingRight: 16,
       }}
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.3, duration: 0.45 }}
     >
-      {/* Terminal box */}
       <div
         style={{
           borderRadius: 12,
-          border: "1px solid rgba(255,255,255,0.13)",
-          background: "rgba(0,0,0,0.35)",
-          padding: "12px 14px 14px 14px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(0,0,0,0.32)",
+          padding: "12px 14px 14px",
           flex: 1,
           overflow: "hidden",
           backdropFilter: "blur(12px)",
-          boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.04) inset, 0 4px 24px rgba(0,0,0,0.4)",
+          position: "relative",
         }}
       >
-        {/* Header bar */}
+        {/* ── Header ── */}
         <div
           className="flex items-center gap-1.5 mb-3 pb-2.5"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
         >
           <div
             className="w-2.5 h-2.5 rounded-full"
-            style={{ background: "#ff5f57", boxShadow: "0 0 6px #ff5f5788" }}
+            style={{ background: "#ff5f57" }}
           />
           <div
             className="w-2.5 h-2.5 rounded-full"
-            style={{ background: "#febc2e", boxShadow: "0 0 6px #febc2e88" }}
+            style={{ background: "#febc2e" }}
           />
           <div
             className="w-2.5 h-2.5 rounded-full"
-            style={{ background: "#28c840", boxShadow: "0 0 6px #28c84088" }}
+            style={{ background: "#28c840" }}
           />
-          <motion.span
-            className="ml-auto text-[8.5px] tracking-[0.3em] uppercase"
+          <span
+            className="ml-auto"
             style={{
-              color: "rgba(56,189,248,0.55)",
               fontFamily: "'Courier New', monospace",
+              fontSize: 8.5,
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "rgba(96,165,250,0.5)",
               fontWeight: 700,
             }}
-            animate={{ opacity: [0.45, 0.75, 0.45] }}
-            transition={{ duration: 4, repeat: Infinity }}
           >
             ENGINEER.STATUS
-          </motion.span>
-        </div>
-
-        {/* Identity block */}
-        <SectionLabel accentColor={SECTION_COLORS.identity}>
-          identity
-        </SectionLabel>
-        {STATUS_ITEMS.map((item, i) => (
-          <StatusRow key={item.label} {...item} delay={0.4 + i * 0.06} />
-        ))}
-
-        {/* Mindset block */}
-        <SectionLabel accentColor={SECTION_COLORS.mindset}>
-          mindset
-        </SectionLabel>
-        {MINDSET_ITEMS.map((item, i) => (
-          <StatusRow key={item.label} {...item} delay={0.65 + i * 0.06} />
-        ))}
-
-        {/* Engineering Domains */}
-        <SectionLabel accentColor={SECTION_COLORS.domains}>
-          engineering domains
-        </SectionLabel>
-        <div className="pl-1">
-          {DOMAIN_ITEMS.map((item, i) => (
-            <DomainRow
-              key={item.label}
-              {...item}
-              delay={0.85 + i * 0.07}
-              prefix={i === DOMAIN_ITEMS.length - 1 ? "└─" : "├─"}
-            />
-          ))}
-        </div>
-
-        {/* Current Vector */}
-        <SectionLabel accentColor={SECTION_COLORS.vector}>
-          current vector
-        </SectionLabel>
-        <motion.div
-          className="flex items-start gap-2 py-[4px] pl-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1 }}
-        >
-          <ArrowRight
-            size={10}
-            color="#34d399"
-            strokeWidth={2.5}
-            className="mt-px shrink-0"
-            style={{ filter: "drop-shadow(0 0 4px #34d39988)" }}
-          />
-          <span
-            className="text-[9.5px] leading-relaxed"
-            style={{
-              color: "rgba(255,255,255,0.72)",
-              fontFamily: "'Courier New', monospace",
-              fontWeight: 500,
-            }}
-          >
-            Architecting resilient real-time infra
           </span>
-        </motion.div>
+        </div>
 
-        {/* Execution Cycle */}
-        <SectionLabel accentColor={SECTION_COLORS.cycle}>
-          execution cycle
-        </SectionLabel>
-        <motion.div
-          className="flex items-center gap-1.5 flex-wrap pl-1 pb-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-        >
-          {["Observe", "Design", "Implement", "Refine"].map((word, i) => (
-            <span key={word} className="flex items-center gap-1">
-              <span
-                className="text-[9.5px]"
-                style={{
-                  color: ["#38bdf8", "#a78bfa", "#34d399", "#fb923c"][i],
-                  fontFamily: "'Courier New', monospace",
-                  fontWeight: 700,
-                  textShadow: `0 0 10px ${["#38bdf8", "#a78bfa", "#34d399", "#fb923c"][i]}55`,
-                }}
+        {/* ── Loading overlay ── */}
+        <AnimatePresence>
+          {!loaded && <LoadingScreen onDone={() => setLoaded(true)} />}
+        </AnimatePresence>
+
+        {/* ── Content ── */}
+        <AnimatePresence>
+          {loaded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25 }}
+            >
+              {/* Identity */}
+              <SectionLabel
+                accentColor={SECTION_COLORS.identity}
+                startDelay={T.identity_label}
               >
-                {word}
-              </span>
-              {i < 3 && (
+                identity
+              </SectionLabel>
+              {STATUS_ITEMS.map((item, i) => (
+                <StatusRow
+                  key={item.label}
+                  {...item}
+                  startDelay={T.identity_rows[i]}
+                />
+              ))}
+
+              {/* Mindset */}
+              <SectionLabel
+                accentColor={SECTION_COLORS.mindset}
+                startDelay={T.mindset_label}
+              >
+                mindset
+              </SectionLabel>
+              {MINDSET_ITEMS.map((item, i) => (
+                <StatusRow
+                  key={item.label}
+                  {...item}
+                  startDelay={T.mindset_rows[i]}
+                />
+              ))}
+
+              {/* Domains */}
+              <SectionLabel
+                accentColor={SECTION_COLORS.domains}
+                startDelay={T.domains_label}
+              >
+                engineering domains
+              </SectionLabel>
+              <div className="pl-1">
+                {DOMAIN_ITEMS.map((item, i) => (
+                  <DomainRow
+                    key={item.label}
+                    {...item}
+                    startDelay={T.domain_rows[i]}
+                    prefix={i === DOMAIN_ITEMS.length - 1 ? "└─" : "├─"}
+                  />
+                ))}
+              </div>
+
+              {/* Current vector */}
+              <SectionLabel
+                accentColor={SECTION_COLORS.vector}
+                startDelay={T.vector_label}
+              >
+                current vector
+              </SectionLabel>
+              <motion.div
+                className="flex items-start gap-2 py-[4px] pl-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: T.vector_text / 1000 }}
+              >
+                <ArrowRight
+                  size={10}
+                  color="#4ade80"
+                  strokeWidth={2.5}
+                  className="mt-px shrink-0"
+                />
+                <TypingText
+                  text="Architecting resilient real-time infra"
+                  startDelay={T.vector_text + 60}
+                  color="rgba(255,255,255,0.72)"
+                  fontSize={9.5}
+                  fontWeight={500}
+                  style={{ lineHeight: "1.6" }}
+                />
+              </motion.div>
+
+              {/* Execution cycle */}
+              <SectionLabel
+                accentColor={SECTION_COLORS.cycle}
+                startDelay={T.cycle_label}
+              >
+                execution cycle
+              </SectionLabel>
+              <motion.div
+                className="flex items-center gap-1.5 flex-wrap pl-1 pb-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: T.cycle_words / 1000 }}
+              >
+                {CYCLE_WORDS.map((word, i) => (
+                  <span key={word} className="flex items-center gap-1">
+                    <TypingText
+                      text={word}
+                      startDelay={T.cycle_words + i * 140}
+                      color={CYCLE_COLORS[i]}
+                      fontSize={9.5}
+                      fontWeight={700}
+                    />
+                    {i < 3 && (
+                      <span
+                        style={{
+                          color: "rgba(255,255,255,0.2)",
+                          fontFamily: "'Courier New', monospace",
+                          fontSize: 9,
+                        }}
+                      >
+                        ›
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </motion.div>
+
+              {/* Footer */}
+              <div
+                className="mt-3 pt-2.5 flex items-center gap-1.5"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <RotateCcw
+                  size={8}
+                  style={{ color: "rgba(255,255,255,0.2)" }}
+                />
                 <span
                   style={{
-                    color: "rgba(255,255,255,0.2)",
                     fontFamily: "'Courier New', monospace",
-                    fontSize: 9,
+                    fontSize: 8,
+                    letterSpacing: "0.16em",
+                    color: "rgba(255,255,255,0.18)",
                   }}
                 >
-                  {"›"}
+                  v2.0 // always building
                 </span>
-              )}
-            </span>
-          ))}
-        </motion.div>
-
-        {/* Bottom separator */}
-        <div
-          className="mt-3 pt-2.5 flex items-center gap-1.5"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
-        >
-          <RotateCcw size={8} style={{ color: "rgba(255,255,255,0.22)" }} />
-          <span
-            className="text-[8px] tracking-widest"
-            style={{
-              color: "rgba(255,255,255,0.18)",
-              fontFamily: "'Courier New', monospace",
-            }}
-          >
-            v2.0 // always building
-          </span>
-          <motion.div
-            className="ml-auto w-1.5 h-1.5 rounded-full"
-            style={{ background: "#34d399" }}
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );

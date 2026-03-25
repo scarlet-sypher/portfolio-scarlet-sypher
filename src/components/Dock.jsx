@@ -13,6 +13,7 @@ import {
   Palette,
   Terminal,
   MessageCircle,
+  FileText,
 } from "lucide-react";
 
 import Home from "../Pages/Home";
@@ -21,6 +22,7 @@ import Chrome from "../Pages/Chrome";
 import Photoshop from "../Pages/Photoshop";
 import TerminalPage from "../Pages/Terminal";
 import Message from "../Pages/Message";
+import Resume from "../Pages/Resume";
 import Window from "./Window";
 
 const APPS_CONFIG = [
@@ -78,13 +80,22 @@ const APPS_CONFIG = [
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
+  {
+    key: "resume",
+    Icon: FileText,
+    label: "Resume",
+    color: "rgba(255,145,40,0.9)",
+    Page: Resume,
+    pos: { x: 160, y: 60 },
+    size: { width: 700, height: 520 },
+  },
 ];
 
 const DOCK_BASE_SIZE = 44;
 const DOCK_MAX_SIZE = 68;
 const ANIMATION_DISTANCE = 110;
 
-export default function Dock() {
+export default function Dock({ openResumeExternal, onResumeOpened }) {
   const mouseX = useMotionValue(Infinity);
   const iconRefs = useRef({});
 
@@ -92,12 +103,22 @@ export default function Dock() {
   const [minimizedApps, setMinimizedApps] = useState(new Set());
   const [maximizedApps, setMaximizedApps] = useState(new Set());
 
+  // Allow external open trigger (from dumbbell button)
+  if (
+    openResumeExternal &&
+    !openApps.has("resume") &&
+    !minimizedApps.has("resume")
+  ) {
+    setOpenApps((prev) => new Set(prev).add("resume"));
+    onResumeOpened?.();
+  }
+
   const handleOpenApp = (key) => {
     if (minimizedApps.has(key)) {
       setMinimizedApps((prev) => {
-        const next = new Set(prev);
-        next.delete(key);
-        return next;
+        const n = new Set(prev);
+        n.delete(key);
+        return n;
       });
     }
     setOpenApps((prev) => new Set(prev).add(key));
@@ -105,36 +126,36 @@ export default function Dock() {
 
   const handleCloseApp = (key) => {
     setOpenApps((prev) => {
-      const next = new Set(prev);
-      next.delete(key);
-      return next;
+      const n = new Set(prev);
+      n.delete(key);
+      return n;
     });
     setMinimizedApps((prev) => {
-      const next = new Set(prev);
-      next.delete(key);
-      return next;
+      const n = new Set(prev);
+      n.delete(key);
+      return n;
     });
     setMaximizedApps((prev) => {
-      const next = new Set(prev);
-      next.delete(key);
-      return next;
+      const n = new Set(prev);
+      n.delete(key);
+      return n;
     });
   };
 
   const handleMinimizeApp = (key) => {
     setOpenApps((prev) => {
-      const next = new Set(prev);
-      next.delete(key);
-      return next;
+      const n = new Set(prev);
+      n.delete(key);
+      return n;
     });
     setMinimizedApps((prev) => new Set(prev).add(key));
   };
 
   const handleToggleMaximize = (key) => {
     setMaximizedApps((prev) => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
+      const n = new Set(prev);
+      n.has(key) ? n.delete(key) : n.add(key);
+      return n;
     });
   };
 
@@ -163,10 +184,10 @@ export default function Dock() {
         className="absolute z-40 bottom-5 left-1/2 -translate-x-1/2"
         style={{
           borderRadius: 99,
-          background: "rgba(255, 255, 255, 0.09)",
+          background: "rgba(255,255,255,0.09)",
           backdropFilter: "blur(28px) saturate(180%)",
           WebkitBackdropFilter: "blur(28px) saturate(180%)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
+          border: "1px solid rgba(255,255,255,0.2)",
           boxShadow:
             "0 4px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.1)",
           padding: "10px 24px 6px 24px",
@@ -198,10 +219,7 @@ export default function Dock() {
 
 function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
   const iconRef = useRef(null);
-
-  if (iconRefs && item.key) {
-    iconRefs.current[item.key] = iconRef;
-  }
+  if (iconRefs && item.key) iconRefs.current[item.key] = iconRef;
 
   const distance = useTransform(mouseX, (val) => {
     const bounds = iconRef.current?.getBoundingClientRect() ?? {
@@ -210,7 +228,6 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
     };
     return val - bounds.x - bounds.width / 2;
   });
-
   const scaleTransform = useTransform(
     distance,
     [-ANIMATION_DISTANCE, 0, ANIMATION_DISTANCE],
@@ -232,15 +249,14 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
       <span
         className="absolute -top-10 text-[10px] tracking-wider whitespace-nowrap px-2 py-0.5 rounded-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150"
         style={{
-          background: "rgba(0, 0, 0, 0.62)",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
-          color: "rgba(255, 255, 255, 0.82)",
+          background: "rgba(0,0,0,0.62)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          color: "rgba(255,255,255,0.82)",
           backdropFilter: "blur(8px)",
         }}
       >
         {item.label}
       </span>
-
       <motion.div
         style={{
           scale,
@@ -255,8 +271,8 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
             width: DOCK_BASE_SIZE,
             height: DOCK_BASE_SIZE,
             background: item.color,
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 4px 18px rgba(0, 0, 0, 0.3)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 4px 18px rgba(0,0,0,0.3)",
             color: "#fff",
             opacity: isMinimized ? 0.6 : 1,
           }}
@@ -267,7 +283,6 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
           <item.Icon size={20} strokeWidth={1.6} />
         </motion.div>
       </motion.div>
-
       <AnimatePresence>
         {(isOpen || isMinimized) && (
           <motion.div
@@ -280,8 +295,8 @@ function DockIcon({ item, mouseX, isOpen, isMinimized, onOpen, iconRefs }) {
               height: 4,
               borderRadius: "50%",
               background: isMinimized
-                ? "rgba(255, 190, 50, 0.9)"
-                : "rgba(255, 255, 255, 0.7)",
+                ? "rgba(255,190,50,0.9)"
+                : "rgba(255,255,255,0.7)",
               marginTop: 3,
             }}
           />
