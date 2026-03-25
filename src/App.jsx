@@ -2,6 +2,7 @@ import LeftSidebar from "./components/LeftSidebar";
 import MainPanel from "./components/MainPanel";
 import HeroCharacter from "./components/HeroCharacter";
 import Dock from "./components/Dock";
+import ClockOverlay from "./components/ClockOverlay";
 import backgroundImage from "./assets/bg.png";
 
 export default function App() {
@@ -14,8 +15,9 @@ export default function App() {
         alt="background"
         draggable={false}
       />
-
       <div className="absolute inset-0 bg-black/20" />
+
+      <ClockOverlay />
 
       <MainPanel />
       <HeroCharacter />
