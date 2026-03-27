@@ -7,84 +7,137 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
-  Monitor,
-  Music,
-  Globe,
-  Palette,
+  UserCircle,
+  Cpu,
+  FolderKanban,
+  Briefcase,
+  Award,
+  GraduationCap,
+  Phone,
+  Brain,
   Terminal,
-  MessageCircle,
+  Layout,
   FileText,
 } from "lucide-react";
 
-import Home from "../Pages/Home";
-import MusicPage from "../Pages/Music";
-import Chrome from "../Pages/Chrome";
+import AboutMe from "../Pages/AboutMe";
+import Skills from "../Pages/Skills";
 import Photoshop from "../Pages/Photoshop";
 import TerminalPage from "../Pages/Terminal";
 import Message from "../Pages/Message";
 import Resume from "../Pages/Resume";
 import Window from "./Window";
 
+const COLORS = {
+  "about-me": "#3B82F6",
+  skills: "#2563EB",
+  projects: "#F97316",
+  work: "#EA580C",
+  certificates: "#EAB308",
+  education: "#22C55E",
+  contact: "#6366F1",
+  ai: "#A855F7",
+  terminal: "#18181B",
+  normal: "#52525B",
+  resume: "#FB923C",
+};
+
 const APPS_CONFIG = [
   {
-    key: "home",
-    Icon: Monitor,
-    label: "Home",
-    color: "rgba(48,138,218,0.9)",
-    Page: Home,
+    key: "about-me",
+    Icon: UserCircle,
+    label: "About-Me",
+    color: COLORS["about-me"],
+    Page: AboutMe,
     pos: { x: 180, y: 60 },
-    size: { width: 680, height: 420 },
-  },
-  {
-    key: "music",
-    Icon: Music,
-    label: "Spotify",
-    color: "rgba(28,202,88,0.9)",
-    Page: MusicPage,
-    pos: { x: 200, y: 70 },
     size: { width: 680, height: 460 },
   },
   {
-    key: "chrome",
-    Icon: Globe,
-    label: "Chrome",
-    color: "rgba(232,82,50,0.9)",
-    Page: Chrome,
+    key: "skills",
+    Icon: Cpu,
+    label: "Skills",
+    color: COLORS.skills,
+    Page: Photoshop,
     pos: { x: 160, y: 55 },
     size: { width: 720, height: 500 },
   },
   {
-    key: "photoshop",
-    Icon: Palette,
-    label: "Photoshop",
-    color: "rgba(46,158,255,0.9)",
-    Page: Photoshop,
+    key: "projects",
+    Icon: FolderKanban,
+    label: "Projects",
+    color: COLORS.projects,
+    Page: Skills,
     pos: { x: 140, y: 50 },
     size: { width: 760, height: 520 },
   },
   {
-    key: "terminal",
-    Icon: Terminal,
-    label: "Terminal",
-    color: "rgba(145,98,255,0.9)",
-    Page: TerminalPage,
-    pos: { x: 220, y: 80 },
-    size: { width: 640, height: 420 },
+    key: "work",
+    Icon: Briefcase,
+    label: "Work",
+    color: COLORS.work,
+    Page: Resume,
+    pos: { x: 160, y: 60 },
+    size: { width: 700, height: 520 },
   },
   {
-    key: "messages",
-    Icon: MessageCircle,
-    label: "Messages",
-    color: "rgba(86,98,242,0.9)",
+    key: "certificates",
+    Icon: Award,
+    label: "Certificates",
+    color: COLORS.certificates,
+    Page: Resume,
+    pos: { x: 170, y: 65 },
+    size: { width: 680, height: 480 },
+  },
+  {
+    key: "education",
+    Icon: GraduationCap,
+    label: "Education",
+    color: COLORS.education,
+    Page: Resume,
+    pos: { x: 190, y: 70 },
+    size: { width: 680, height: 480 },
+  },
+  {
+    key: "contact",
+    Icon: Phone,
+    label: "Contact",
+    color: COLORS.contact,
     Page: Message,
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
   {
+    key: "ai",
+    Icon: Brain,
+    label: "AI",
+    color: COLORS.ai,
+    Page: TerminalPage,
+    pos: { x: 220, y: 80 },
+    size: { width: 640, height: 420 },
+  },
+  {
+    key: "terminal",
+    Icon: Terminal,
+    label: "Terminal",
+    color: COLORS.terminal,
+    Page: TerminalPage,
+    pos: { x: 220, y: 80 },
+    size: { width: 640, height: 420 },
+  },
+  {
+    key: "normal",
+    Icon: Layout,
+    label: "Normal",
+    color: COLORS.normal,
+    Page: Skills,
+    pos: { x: 200, y: 70 },
+    size: { width: 720, height: 500 },
+  },
+  {
     key: "resume",
     Icon: FileText,
     label: "Resume",
-    color: "rgba(255,145,40,0.9)",
+    color: COLORS.resume,
     Page: Resume,
     pos: { x: 160, y: 60 },
     size: { width: 700, height: 520 },
@@ -103,7 +156,6 @@ export default function Dock({ openResumeExternal, onResumeOpened }) {
   const [minimizedApps, setMinimizedApps] = useState(new Set());
   const [maximizedApps, setMaximizedApps] = useState(new Set());
 
-  // Allow external open trigger (from dumbbell button)
   if (
     openResumeExternal &&
     !openApps.has("resume") &&
@@ -175,7 +227,7 @@ export default function Dock({ openResumeExternal, onResumeOpened }) {
             onMinimize={() => handleMinimizeApp(app.key)}
             onMaximize={() => handleToggleMaximize(app.key)}
           >
-            <app.Page />
+            <app.Page isMaximized={maximizedApps.has(app.key)} />
           </Window>
         ))}
       </AnimatePresence>

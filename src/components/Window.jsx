@@ -57,23 +57,23 @@ export default function Window({
         animate={
           isMaximized
             ? {
-              opacity: 1,
-              scale: 1,
-              x: 0,
-              y: 0,
-              width: "100vw",
-              height: "100vh",
-              borderRadius: 0,
-            }
+                opacity: 1,
+                scale: 1,
+                x: 0,
+                y: 0,
+                width: "100vw",
+                height: "100vh",
+                borderRadius: 0,
+              }
             : {
-              opacity: 1,
-              scale: 1,
-              x: lastPosition.current.x,
-              y: lastPosition.current.y,
-              width: initialSize.width,
-              height: initialSize.height,
-              borderRadius: 12,
-            }
+                opacity: 1,
+                scale: 1,
+                x: lastPosition.current.x,
+                y: lastPosition.current.y,
+                width: initialSize.width,
+                height: initialSize.height,
+                borderRadius: 12,
+              }
         }
         exit={{
           opacity: 0,
@@ -82,6 +82,9 @@ export default function Window({
           transition: { duration: 0.38, ease: [0.4, 0, 1, 1] },
         }}
         transition={{ type: "spring", stiffness: 340, damping: 30, mass: 0.8 }}
+        onAnimationComplete={() => {
+          window.dispatchEvent(new Event("resize"));
+        }}
         style={{
           position: "fixed",
           top: 0,
@@ -96,7 +99,8 @@ export default function Window({
           backdropFilter: "blur(32px) saturate(180%)",
           WebkitBackdropFilter: "blur(32px) saturate(180%)",
           border: "1px solid rgba(255, 255, 255, 0.14)",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
+          boxShadow:
+            "0 24px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
           userSelect: "none",
         }}
       >
@@ -125,7 +129,10 @@ export default function Window({
           </div>
         </div>
 
-        <div className="flex-1 overflow-auto cursor-default" style={{ cursor: "default" }}>
+        <div
+          className="flex-1 overflow-auto cursor-default"
+          style={{ cursor: "default" }}
+        >
           {children}
         </div>
       </motion.div>
@@ -136,12 +143,7 @@ export default function Window({
 function WindowControls({ onClose, onMinimize, onMaximize }) {
   return (
     <div className="flex items-center gap-1.5">
-      <ControlButton
-        color="#ff5f57"
-        icon="✕"
-        onClick={onClose}
-        title="Close"
-      />
+      <ControlButton color="#ff5f57" icon="✕" onClick={onClose} title="Close" />
       <ControlButton
         color="#febc2e"
         icon="−"
