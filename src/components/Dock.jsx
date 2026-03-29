@@ -24,7 +24,7 @@ import AboutMe from "../Pages/AboutMe";
 import Skills from "../Pages/Skills";
 import Photoshop from "../Pages/Photoshop";
 import TerminalPage from "../Pages/Terminal";
-import Message from "../Pages/Message";
+import Projects from "../Pages/Projects";
 import Resume from "../Pages/Resume";
 import Window from "./Window";
 
@@ -57,7 +57,7 @@ const APPS_CONFIG = [
     Icon: Cpu,
     label: "Skills",
     color: COLORS.skills,
-    Page: Photoshop,
+    Page: Skills,
     pos: { x: 160, y: 55 },
     size: { width: 720, height: 500 },
   },
@@ -66,7 +66,7 @@ const APPS_CONFIG = [
     Icon: FolderKanban,
     label: "Projects",
     color: COLORS.projects,
-    Page: Skills,
+    Page: Projects,
     pos: { x: 140, y: 50 },
     size: { width: 760, height: 520 },
   },
@@ -102,7 +102,7 @@ const APPS_CONFIG = [
     Icon: Phone,
     label: "Contact",
     color: COLORS.contact,
-    Page: Message,
+    Page: Photoshop,
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
