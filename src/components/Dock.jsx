@@ -22,7 +22,7 @@ import {
 
 import AboutMe from "../Pages/AboutMe";
 import Skills from "../Pages/Skills";
-import Photoshop from "../Pages/Photoshop";
+import Work from "../Pages/Work";
 import TerminalPage from "../Pages/Terminal";
 import Projects from "../Pages/Projects";
 import Resume from "../Pages/Resume";
@@ -75,7 +75,7 @@ const APPS_CONFIG = [
     Icon: Briefcase,
     label: "Work",
     color: COLORS.work,
-    Page: Resume,
+    Page: Work,
     pos: { x: 160, y: 60 },
     size: { width: 700, height: 520 },
   },
@@ -102,7 +102,7 @@ const APPS_CONFIG = [
     Icon: Phone,
     label: "Contact",
     color: COLORS.contact,
-    Page: Photoshop,
+    Page: Work,
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
