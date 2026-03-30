@@ -27,6 +27,7 @@ import TerminalPage from "../Pages/Terminal";
 import Projects from "../Pages/Projects";
 import Resume from "../Pages/Resume";
 import Window from "./Window";
+import Certificates from "../Pages/Certificates";
 
 const COLORS = {
   "about-me": "#3B82F6",
@@ -84,7 +85,7 @@ const APPS_CONFIG = [
     Icon: Award,
     label: "Certificates",
     color: COLORS.certificates,
-    Page: Resume,
+    Page: Certificates,
     pos: { x: 170, y: 65 },
     size: { width: 680, height: 480 },
   },
