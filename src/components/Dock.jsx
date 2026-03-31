@@ -28,6 +28,8 @@ import Projects from "../Pages/Projects";
 import Resume from "../Pages/Resume";
 import Window from "./Window";
 import Certificates from "../Pages/Certificates";
+import Education from "../Pages/Education";
+import Contact from "../Pages/Contact";
 
 const COLORS = {
   "about-me": "#3B82F6",
@@ -94,7 +96,7 @@ const APPS_CONFIG = [
     Icon: GraduationCap,
     label: "Education",
     color: COLORS.education,
-    Page: Resume,
+    Page: Education,
     pos: { x: 190, y: 70 },
     size: { width: 680, height: 480 },
   },
@@ -103,7 +105,7 @@ const APPS_CONFIG = [
     Icon: Phone,
     label: "Contact",
     color: COLORS.contact,
-    Page: Work,
+    Page: Contact,
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
