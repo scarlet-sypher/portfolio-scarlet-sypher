@@ -30,6 +30,7 @@ import Window from "./Window";
 import Certificates from "../Pages/Certificates";
 import Education from "../Pages/Education";
 import Contact from "../Pages/Contact";
+import ChatBro from "../Pages/ChatBro";
 
 const COLORS = {
   "about-me": "#3B82F6",
@@ -114,7 +115,7 @@ const APPS_CONFIG = [
     Icon: Brain,
     label: "AI",
     color: COLORS.ai,
-    Page: TerminalPage,
+    Page: ChatBro,
     pos: { x: 220, y: 80 },
     size: { width: 640, height: 420 },
   },
