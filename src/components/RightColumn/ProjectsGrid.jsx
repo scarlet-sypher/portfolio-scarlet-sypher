@@ -9,7 +9,7 @@ const PROJECTS = [
     stack: "MERN · Socket.IO · JWT",
     front: "#38bdf8",
     side: "#0ea5e9",
-    live: "https://example.com",
+    live: "https://whisper-tails.vercel.app/",
     logo: PawPrint,
   },
   {
@@ -18,7 +18,7 @@ const PROJECTS = [
     stack: "MERN · Gemini · OAuth",
     front: "#a78bfa",
     side: "#7c3aed",
-    live: "https://example.com",
+    live: "https://help-me-make.vercel.app/",
     logo: Brain,
   },
   {
@@ -27,7 +27,7 @@ const PROJECTS = [
     stack: "PHP · MySQL · JS",
     front: "#34d399",
     side: "#059669",
-    live: "https://example.com",
+    live: "https://crubug.ct.ws/?i=3",
     logo: Bug,
   },
   {
@@ -36,7 +36,7 @@ const PROJECTS = [
     stack: "Flask · Python · API",
     front: "#fb923c",
     side: "#ea580c",
-    live: "https://example.com",
+    live: "https://podcast-recommendation-chatbot.onrender.com/",
     logo: Headphones,
   },
 ];

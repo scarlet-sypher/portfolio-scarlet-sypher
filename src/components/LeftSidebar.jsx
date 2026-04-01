@@ -1,31 +1,40 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, GraduationCap, X } from "lucide-react";
+import {
+  FolderGit2,
+  Mail,
+  GraduationCap,
+  X,
+  SquareArrowOutUpRight,
+} from "lucide-react";
+import w from "../assets/home/white.png";
+import g from "../assets/home/green.png";
+import r from "../assets/home/red.png";
 
 const SIDEBAR_ITEMS = [
   {
-    icon: X,
+    icon: FolderGit2,
     label: "GitHub",
     hoverLabel: "GitHub",
-    href: "https://github.com/your-username",
+    href: "https://github.com/scarlet-sypher",
   },
   {
-    icon: X,
+    icon: SquareArrowOutUpRight,
     label: "LinkedIn",
     hoverLabel: "LinkedIn",
-    href: "https://linkedin.com/in/your-username",
+    href: "https://www.linkedin.com/in/ayush-jha-scarlet-sypher/",
   },
   {
     icon: Mail,
     label: "Email",
-    hoverLabel: "your-email@example.com",
-    href: "mailto:your-email@example.com",
+    hoverLabel: "ayushjha002@gmail.com",
+    href: "mailto:ayushjha002@gmail.com",
   },
   {
     icon: GraduationCap,
     label: "College",
-    hoverLabel: "Your College Name",
-    href: "https://your-college.edu",
+    hoverLabel: "Lovely Professional University",
+    href: "https://ums.lpu.in/lpuums/",
   },
 ];
 
@@ -96,23 +105,17 @@ const labelVariants = {
   },
 };
 
-function SearchBadge() {
+function SearchBadge({ src }) {
   return (
     <div
-      className="w-10 h-10 flex items-center justify-center rounded-full select-none"
+      className="w-10 h-10 flex items-center justify-center rounded-full overflow-hidden"
       style={{
         ...iconButtonStyle,
-        fontFamily: "Georgia, serif",
-        fontSize: "15px",
-        fontWeight: 600,
-        fontStyle: "italic",
-        color: "rgba(255,255,255,0.55)",
         cursor: "default",
-        letterSpacing: "0.01em",
       }}
       aria-hidden="true"
     >
-      S
+      <img src={src} alt="logo" className="w-full h-full object-cover" />
     </div>
   );
 }
@@ -186,6 +189,9 @@ function IconButton({ item }) {
 
 export default function LeftSidebar() {
   const [expanded, setExpanded] = useState(false);
+  const [hoveredWhite, setHoveredWhite] = useState(false);
+  const [hoveredRed, setHoveredRed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <motion.div
@@ -198,7 +204,6 @@ export default function LeftSidebar() {
       <motion.div
         className="relative flex flex-col items-center gap-3 px-3"
         style={{
-          ...glassPanel,
           borderRadius: 28,
           overflow: "visible",
           cursor: expanded ? "default" : "pointer",
@@ -208,7 +213,17 @@ export default function LeftSidebar() {
           paddingBottom: expanded ? 16 : 12,
         }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        onClick={!expanded ? () => setExpanded(true) : undefined}
+        onClick={
+          !expanded
+            ? () => {
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                  setExpanded(true);
+                }, 1500);
+              }
+            : undefined
+        }
         whileHover={
           !expanded
             ? {
@@ -228,7 +243,21 @@ export default function LeftSidebar() {
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.22 }}
             >
-              <SearchBadge />
+              <motion.div
+                className="scale-[1.4]"
+                animate={loading ? { rotate: 360 } : { rotate: 0 }}
+                transition={
+                  loading
+                    ? {
+                        repeat: Infinity,
+                        duration: 0.8,
+                        ease: "linear",
+                      }
+                    : { duration: 0.2 }
+                }
+              >
+                <SearchBadge src={g} />
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div
@@ -239,34 +268,113 @@ export default function LeftSidebar() {
               animate="show"
               exit="exit"
             >
-              <motion.div variants={iconItemVariants}>
-                <SearchBadge />
-              </motion.div>
+              <div className="relative" style={{ width: 40, height: 40 }}>
+                <motion.div
+                  variants={iconItemVariants}
+                  onHoverStart={() => setHoveredWhite(true)}
+                  onHoverEnd={() => setHoveredWhite(false)}
+                >
+                  <SearchBadge src={w} />
+                </motion.div>
+
+                <AnimatePresence>
+                  {hoveredWhite && (
+                    <motion.div
+                      className="absolute flex items-center px-3"
+                      style={{
+                        left: "calc(100% + 8px)",
+                        top: "50%",
+                        y: "-50%",
+                        height: 30,
+                        borderRadius: 999,
+                        whiteSpace: "nowrap",
+                        pointerEvents: "none",
+                        zIndex: 50,
+                        ...glassPanel,
+                        background: "rgba(255,255,255,0.11)",
+                      }}
+                      variants={labelVariants}
+                      initial="hidden"
+                      animate="show"
+                      exit="exit"
+                    >
+                      <span
+                        style={{
+                          color: "rgba(255,255,255,0.88)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Inactive
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {SIDEBAR_ITEMS.map((item, i) => (
                 <IconButton key={i} item={item} />
               ))}
+              <div className="relative" style={{ width: 40, height: 40 }}>
+                <motion.button
+                  className="w-10 h-10 flex items-center justify-center rounded-full cursor-pointer"
+                  style={iconButtonStyle}
+                  variants={iconItemVariants}
+                  whileHover={{
+                    scale: 1.16,
+                    background: "rgba(255,80,80,0.12)",
+                    boxShadow: "0 0 12px rgba(255,80,80,0.12)",
+                  }}
+                  onHoverStart={() => setHoveredRed(true)}
+                  onHoverEnd={() => setHoveredRed(false)}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 22 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpanded(false);
+                  }}
+                >
+                  <img
+                    src={r}
+                    alt="close"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.button>
 
-              <motion.button
-                className="w-10 h-10 flex items-center justify-center rounded-full cursor-pointer"
-                style={iconButtonStyle}
-                variants={iconItemVariants}
-                whileHover={{
-                  scale: 1.16,
-                  color: "rgba(255,120,120,0.9)",
-                  background: "rgba(255,80,80,0.12)",
-                  boxShadow: "0 0 12px rgba(255,80,80,0.12)",
-                }}
-                whileTap={{ scale: 0.88 }}
-                transition={{ type: "spring", stiffness: 420, damping: 22 }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setExpanded(false);
-                }}
-                aria-label="Close sidebar"
-              >
-                <X size={15} strokeWidth={1.8} />
-              </motion.button>
+                <AnimatePresence>
+                  {hoveredRed && (
+                    <motion.div
+                      className="absolute flex items-center px-3"
+                      style={{
+                        left: "calc(100% + 8px)",
+                        top: "50%",
+                        y: "-50%",
+                        height: 30,
+                        borderRadius: 999,
+                        whiteSpace: "nowrap",
+                        pointerEvents: "none",
+                        zIndex: 50,
+                        ...glassPanel,
+                        background: "rgba(255,255,255,0.11)",
+                      }}
+                      variants={labelVariants}
+                      initial="hidden"
+                      animate="show"
+                      exit="exit"
+                    >
+                      <span
+                        style={{
+                          color: "rgba(255,255,255,0.88)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Close
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

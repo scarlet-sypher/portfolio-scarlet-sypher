@@ -14,7 +14,7 @@ export default function ParticleBackground({ dark }) {
     canvas.width = W;
     canvas.height = H;
 
-    const N = Math.max(40, Math.floor((W * H) / 1000));
+    const N = Math.max(40, Math.floor((W * H) / 8000));
 
     const flakes = Array.from({ length: N }, () => ({
       x: Math.random() * W,

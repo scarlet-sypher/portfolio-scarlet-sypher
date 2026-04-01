@@ -14,6 +14,7 @@ import {
   Award,
   GraduationCap,
   Phone,
+  History,
   Brain,
   Terminal,
   Layout,
@@ -51,7 +52,7 @@ const COLORS = {
 const APPS_CONFIG = [
   {
     key: "timeline",
-    Icon: Layout, // or choose any lucide icon
+    Icon: History,
     label: "Timeline",
     color: COLORS.timeline,
     Page: TimeLine,
@@ -121,15 +122,18 @@ const APPS_CONFIG = [
     pos: { x: 190, y: 65 },
     size: { width: 680, height: 480 },
   },
-  {
-    key: "ai",
-    Icon: Brain,
-    label: "AI",
-    color: COLORS.ai,
-    Page: ChatBro,
-    pos: { x: 220, y: 80 },
-    size: { width: 640, height: 420 },
-  },
+
+  //later
+
+  // {
+  //   key: "ai",
+  //   Icon: Brain,
+  //   label: "AI",
+  //   color: COLORS.ai,
+  //   Page: ChatBro,
+  //   pos: { x: 220, y: 80 },
+  //   size: { width: 640, height: 420 },
+  // },
   {
     key: "terminal",
     Icon: Terminal,
@@ -139,15 +143,18 @@ const APPS_CONFIG = [
     pos: { x: 220, y: 80 },
     size: { width: 640, height: 420 },
   },
-  {
-    key: "normal",
-    Icon: Layout,
-    label: "Normal",
-    color: COLORS.normal,
-    Page: Skills,
-    pos: { x: 200, y: 70 },
-    size: { width: 720, height: 500 },
-  },
+
+  //later
+
+  // {
+  //   key: "normal",
+  //   Icon: Layout,
+  //   label: "Normal",
+  //   color: COLORS.normal,
+  //   Page: Skills,
+  //   pos: { x: 200, y: 70 },
+  //   size: { width: 720, height: 500 },
+  // },
   {
     key: "resume",
     Icon: FileText,

@@ -1,6 +1,9 @@
 import { useRef, useState, useCallback } from "react";
 import { Sun, MoonStar } from "lucide-react";
 
+import big from "../assets/about/big.jpeg";
+import small from "../assets/about/small.jpeg";
+
 const CONTENT = {
   bio: [
     {
@@ -484,7 +487,7 @@ export default function AboutMe({ isMaximized = false }) {
                 }}
               >
                 <img
-                  src="https://api.dicebear.com/9.x/personas/svg?seed=AyushJha&backgroundColor=d4a574"
+                  src={small}
                   alt="Profile"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   onError={(e) => {
@@ -652,7 +655,7 @@ export default function AboutMe({ isMaximized = false }) {
                   }}
                 >
                   <img
-                    src="https://api.dicebear.com/9.x/personas/svg?seed=AyushJhaDev&backgroundColor=d4a574,c4956a"
+                    src={big}
                     alt="Profile"
                     style={{
                       width: "100%",

@@ -405,6 +405,12 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      { name: form.name, email: form.email, message: form.message },
+      EMAILJS_PUBLIC_KEY,
+    );
     if (!form.name || !form.email || !form.message) return;
 
     setStatus("sending");
@@ -413,7 +419,7 @@ export default function Contact() {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        { from_name: form.name, from_email: form.email, message: form.message },
+        { name: form.name, email: form.email, message: form.message },
         EMAILJS_PUBLIC_KEY,
       );
       setStatus("success");
