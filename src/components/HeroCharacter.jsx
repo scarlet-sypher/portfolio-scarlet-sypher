@@ -14,15 +14,16 @@ import rengoku from "../assets/hero/rengoku.png";
 
 const HERO_IMAGES = [
   { id: 1, src: zoro, alt: "Zoro" },
-  { id: 2, src: naruto, alt: "Naruto" },
-  { id: 3, src: cat, alt: "Hero 3" },
-  { id: 4, src: deku, alt: "Hero 4" },
-  { id: 5, src: inoske, alt: "Hero 5" },
-  { id: 6, src: jinbe, alt: "Hero 6" },
-  { id: 7, src: luffy, alt: "Hero 7" },
-  { id: 8, src: luffy2, alt: "Hero 8" },
-  { id: 9, src: luffy3, alt: "Hero 9" },
-  { id: 10, src: rengoku, alt: "Hero 10" },
+
+  { id: 2, src: luffy2, alt: "Hero 8" },
+  { id: 3, src: deku, alt: "Hero 4" },
+  { id: 4, src: naruto, alt: "Naruto" },
+  { id: 5, src: jinbe, alt: "Hero 6" },
+  { id: 6, src: cat, alt: "Hero 3" },
+  { id: 7, src: rengoku, alt: "Hero 10" },
+  { id: 8, src: luffy, alt: "Hero 7" },
+  { id: 9, src: inoske, alt: "Hero 5" },
+  { id: 10, src: luffy3, alt: "Hero 9" },
 ];
 
 const INTERVAL_MS = 4000;
