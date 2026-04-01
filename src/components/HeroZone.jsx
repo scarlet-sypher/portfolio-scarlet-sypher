@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
 
-// HeroZone is the flexible center column — the HeroCharacter sits above this
-// as an absolutely positioned overlay, so we just need the text content at the bottom.
 export default function HeroZone() {
   return (
     <div
@@ -9,8 +7,7 @@ export default function HeroZone() {
       style={{
         paddingBottom: 20,
         paddingLeft: 16,
-        // Prevents this column from shrinking so aggressively that the
-        // hero character loses its visual center
+
         minWidth: "180px",
       }}
     >
@@ -34,7 +31,7 @@ export default function HeroZone() {
             fontFamily: "'Courier New', monospace",
             color: "rgba(255, 255, 255, 0.96)",
             textShadow: "0 2px 20px rgba(0,0,0,0.8)",
-            // Scale down on tighter viewports without breaking layout
+
             fontSize: "clamp(2rem, 4vw, 3rem)",
           }}
           initial={{ opacity: 0, y: 10 }}

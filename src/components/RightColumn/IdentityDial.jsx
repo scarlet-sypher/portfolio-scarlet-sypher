@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const IDENTITY_WORDS = ["ADAPTIVE", "DSA", "SYSTEMS", "BUILDER", "LEADERSHIP"];
+const IDENTITY_WORDS = [
+  "OPERATING IN SILENCE",
+  "CONTROLLED CHAOS",
+  "PRECISION OVER NOISE",
+  "QUIETLY CALCULATING",
+  "ZERO WASTED MOTION",
+  "DISCIPLINE OVER HYPE",
+  "SILENCE IS STRATEGY",
+  "CALM UNDER CHAOS",
+];
 
 export default function IdentityDial() {
   const [wordIndex, setWordIndex] = useState(0);
@@ -9,80 +18,53 @@ export default function IdentityDial() {
   useEffect(() => {
     const t = setInterval(
       () => setWordIndex((i) => (i + 1) % IDENTITY_WORDS.length),
-      2400,
+      3000,
     );
     return () => clearInterval(t);
   }, []);
 
   return (
     <motion.div
-      className="flex items-center gap-2.5"
-      initial={{ opacity: 0, x: 8 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.38, duration: 0.42 }}
+      className="flex items-center gap-3"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35, duration: 0.45 }}
       style={{
-        paddingBottom: 10,
-        borderBottom: "1px solid rgba(255,255,255,0.07)",
+        paddingBottom: 12,
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}
     >
-      <span
-        style={{
-          fontSize: 10,
-          letterSpacing: "0.28em",
-          textTransform: "uppercase",
-          color: "rgba(255,255,255,0.32)",
-          flexShrink: 0,
-        }}
-      >
-        I AM
-      </span>
-
+      {/* Word Switch */}
       <div
         className="relative overflow-hidden flex items-center flex-1"
-        style={{ height: 20 }}
+        style={{ height: 22 }}
       >
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
             key={wordIndex}
             className="absolute"
             style={{
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: "0.2em",
-              color: "rgba(255,255,255,0.9)",
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.14em",
+              fontFamily: "Inter, SF Pro Display, system-ui, sans-serif",
+              background:
+                "linear-gradient(90deg, #ffffff, rgba(255,255,255,0.55))",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
-            initial={{ y: "110%", opacity: 0 }}
-            animate={{ y: "0%", opacity: 1 }}
-            exit={{ y: "-110%", opacity: 0 }}
-            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ y: "120%", opacity: 0, filter: "blur(6px)" }}
+            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+            exit={{ y: "-120%", opacity: 0, filter: "blur(6px)" }}
+            transition={{
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
             {IDENTITY_WORDS[wordIndex]}
           </motion.span>
         </AnimatePresence>
       </div>
-
-      <div
-        className="flex items-center justify-center shrink-0"
-        style={{
-          width: 16,
-          height: 16,
-          borderRadius: "50%",
-          background: "rgba(255,190,60,0.15)",
-          border: "1px solid rgba(255,200,80,0.35)",
-        }}
-      >
-        <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
-      </div>
-
-      <div
-        className="shrink-0 rounded-full overflow-hidden"
-        style={{
-          width: 28,
-          height: 28,
-          border: "1.5px solid rgba(255,255,255,0.22)",
-          background: "rgba(255,255,255,0.09)",
-        }}
-      />
     </motion.div>
   );
 }

@@ -31,8 +31,10 @@ import Certificates from "../Pages/Certificates";
 import Education from "../Pages/Education";
 import Contact from "../Pages/Contact";
 import ChatBro from "../Pages/ChatBro";
+import TimeLine from "../Pages/TimeLine";
 
 const COLORS = {
+  timeline: "#14B8A6",
   "about-me": "#3B82F6",
   skills: "#2563EB",
   projects: "#F97316",
@@ -47,6 +49,15 @@ const COLORS = {
 };
 
 const APPS_CONFIG = [
+  {
+    key: "timeline",
+    Icon: Layout, // or choose any lucide icon
+    label: "Timeline",
+    color: COLORS.timeline,
+    Page: TimeLine,
+    pos: { x: 180, y: 60 },
+    size: { width: 700, height: 480 },
+  },
   {
     key: "about-me",
     Icon: UserCircle,
