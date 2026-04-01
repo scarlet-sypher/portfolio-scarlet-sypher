@@ -2,10 +2,10 @@ export default function FastFetch({ img }) {
   const info = [
     { label: "name", value: "Ayush Jha", color: "#a6e3a1" },
     { label: "role", value: "Full Stack Developer", color: "#89dceb" },
-    { label: "os", value: "Arch Linux (for style)", color: "#f38ba8" },
+    { label: "os", value: "Arch Linux", color: "#f38ba8" },
     { label: "kernel", value: "6.18.9-arch1-2", color: "#f38ba8" },
-    { label: "terminal", value: "Custom React Terminal", color: "#cba6f7" },
-    { label: "wm", value: "Hyprland (aesthetic)", color: "#cba6f7" },
+    { label: "terminal", value: "Hybrid", color: "#cba6f7" },
+    { label: "wm", value: "Hyprland", color: "#cba6f7" },
     { label: "stack", value: "React · Node · MongoDB", color: "#fab387" },
     { label: "realtime", value: "Socket.IO · JWT · OAuth", color: "#fab387" },
     {
@@ -43,11 +43,11 @@ export default function FastFetch({ img }) {
       <div
         style={{
           flexShrink: 0,
-          width: 130,
-          height: 130,
+          width: 250,
+          height: 250,
           borderRadius: 12,
           overflow: "hidden",
-          border: "1px solid rgba(200,154,106,0.3)",
+
           background: "rgba(10,10,20,0.8)",
           display: "flex",
           alignItems: "center",
@@ -57,7 +57,7 @@ export default function FastFetch({ img }) {
         <img
           src={img}
           alt="fastfetch"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
           onError={(e) => {
             e.target.style.display = "none";
           }}

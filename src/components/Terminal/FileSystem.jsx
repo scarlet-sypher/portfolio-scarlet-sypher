@@ -1,3 +1,40 @@
+import cerberus from "../../assets/hero/blue_flame_cerberus.png";
+
+import cat from "../../assets/hero/cat.png";
+
+import deku from "../../assets/hero/deku.png";
+import dekuDark from "../../assets/hero/deku_dark_lightning_form.png";
+
+import fire from "../../assets/hero/fire.png";
+
+import inosuke from "../../assets/hero/inoske.png";
+
+import itachi from "../../assets/hero/itachi_sharingan_closeup.png";
+
+import jinbe from "../../assets/hero/jinbe.png";
+
+import killua from "../../assets/hero/killua.png";
+
+import luffy from "../../assets/hero/luffy.png";
+import luffyVariant1 from "../../assets/hero/luffy2.png";
+import luffyVariant2 from "../../assets/hero/luffy3.png";
+import luffyGear5 from "../../assets/hero/luffy_gear5.png";
+
+import naruto from "../../assets/hero/naruto.png";
+import narutoKyuubi from "../../assets/hero/naruto_nine_tails_chakra_mode.png";
+
+import rengoku from "../../assets/hero/rengoku.png";
+import rengokuFlame from "../../assets/hero/rengoku_flame_attack.png";
+
+import strawhatCrew from "../../assets/hero/straw_hat_crew_group.png";
+
+import tanjiroFlame1 from "../../assets/hero/tanjiro_flame_katana.png";
+import tanjiroFlame2 from "../../assets/hero/tanjiro_flame_spin_attack.png";
+
+import zenitsu from "../../assets/hero/zenitsu_thunder_breathing.png";
+
+import zoro from "../../assets/hero/zoro.png";
+
 export const FILE_SYSTEM = {
   "/": {
     type: "dir",
@@ -200,9 +237,26 @@ export const SECTION_ALIASES = {
 };
 
 export const FASTFETCH_IMAGES = [
-  "https://api.dicebear.com/9.x/bottts/svg?seed=scarlet&backgroundColor=1a1a2e",
-  "https://api.dicebear.com/9.x/bottts/svg?seed=sypher&backgroundColor=0d0d1a",
-  "https://api.dicebear.com/9.x/bottts/svg?seed=hacker&backgroundColor=0a1628",
-  "https://api.dicebear.com/9.x/bottts/svg?seed=arch&backgroundColor=1a0d2e",
-  "https://api.dicebear.com/9.x/bottts/svg?seed=terminal&backgroundColor=0d1a1a",
+  cerberus,
+  zoro,
+  luffyVariant2,
+  tanjiroFlame1,
+  narutoKyuubi,
+  cat,
+  rengokuFlame,
+  dekuDark,
+  jinbe,
+  luffy,
+  itachi,
+  tanjiroFlame2,
+  killua,
+  inosuke,
+  zenitsu,
+  naruto,
+  luffyGear5,
+  rengoku,
+  strawhatCrew,
+  fire,
+  deku,
+  luffyVariant1,
 ];

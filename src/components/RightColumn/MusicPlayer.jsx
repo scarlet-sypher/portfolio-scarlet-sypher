@@ -10,19 +10,31 @@ import {
   Shuffle,
 } from "lucide-react";
 
-import track1 from "../../assets/music/Alex Warren - Ordinary.mp3";
-import track2 from "../../assets/music/She   Him - I Thought I Saw Your Face Today.mp3";
+import track1 from "../../assets/music/kensuke.mp3";
+import track2 from "../../assets/music/ylia.mp3";
+import track3 from "../../assets/music/Masaru Yokoyama.mp3";
+import track4 from "../../assets/music/Will Wiesenfeld.mp3";
 
 const SONGS = [
   {
     src: track1,
-    title: "Ordinary",
+    title: "Chainsaw Man",
     artist: "Alex Warren",
   },
   {
     src: track2,
-    title: "I Thought I Saw Your Face Today",
+    title: "Your lie in April",
     artist: "She & Him",
+  },
+  {
+    src: track3,
+    title: "Masaru Yokoyama",
+    artist: "Tender Touch",
+  },
+  {
+    src: track4,
+    title: "Will Wiesenfeld",
+    artist: "Bee and Puppy Cat",
   },
 ];
 
