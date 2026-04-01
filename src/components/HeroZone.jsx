@@ -11,10 +11,6 @@ export default function HeroZone() {
         minWidth: "180px",
       }}
     >
-      <div className="absolute top-2 right-2 text-[9px] tracking-[0.3em] uppercase text-white/15">
-        Portfolio V2.0
-      </div>
-
       <div className="relative z-10">
         <motion.p
           className="text-[10px] tracking-[0.4em] uppercase mb-1"
