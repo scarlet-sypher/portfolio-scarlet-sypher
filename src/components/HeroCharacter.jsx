@@ -14,7 +14,6 @@ import rengoku from "../assets/hero/rengoku.png";
 
 const HERO_IMAGES = [
   { id: 1, src: zoro, alt: "Zoro" },
-
   { id: 2, src: luffy2, alt: "Hero 8" },
   { id: 3, src: deku, alt: "Hero 4" },
   { id: 4, src: naruto, alt: "Naruto" },

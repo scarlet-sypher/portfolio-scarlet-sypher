@@ -3,6 +3,7 @@ import { Sun, MoonStar } from "lucide-react";
 
 import big from "../assets/about/big.jpeg";
 import small from "../assets/about/small.jpeg";
+import profile from "../assets/profile/yyu.png";
 
 const CONTENT = {
   bio: [
@@ -346,6 +347,8 @@ function ThemeToggle({ dark, onToggle, t }) {
 export default function AboutMe({ isMaximized = false }) {
   const [darkMode, setDarkMode] = useState(false);
   const [hovered, setHovered] = useState(null);
+
+  const [flipped, setFlipped] = useState(false);
   const containerRef = useRef(null);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
@@ -373,6 +376,12 @@ export default function AboutMe({ isMaximized = false }) {
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { border-radius: 2px; background: rgba(200,154,106,0.35); }
+        .flip-card { perspective: 1000px; cursor: pointer; }
+        .flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(.4,0,.2,1), box-shadow 0.3s; }
+        .flip-inner.flipped { transform: rotateY(180deg); }
+        .flip-inner:hover { box-shadow: 0 24px 64px rgba(120,70,20,0.32) !important; }
+        .flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: inherit; overflow: hidden; }
+        .flip-back { transform: rotateY(180deg); }
       `}</style>
 
       <div
@@ -638,43 +647,73 @@ export default function AboutMe({ isMaximized = false }) {
                 overflowY: "auto",
               }}
             >
-              <div style={{ position: "relative", marginBottom: 8 }}>
+              <div
+                className="about-card flip-card"
+                onClick={() => setFlipped((f) => !f)}
+                style={{
+                  width: "100%",
+                  aspectRatio: "4/5",
+                  borderRadius: 20,
+                  background: t.profileBg,
+                  position: "relative",
+                  transform: "rotate(-2deg)",
+                }}
+              >
                 <div
-                  className="about-card"
+                  className={`flip-inner${flipped ? " flipped" : ""}`}
                   style={{
-                    width: "100%",
-                    aspectRatio: "4/5",
-                    borderRadius: 20,
-                    overflow: "hidden",
                     boxShadow:
                       "0 16px 48px rgba(120,70,20,0.22), 0 4px 12px rgba(0,0,0,0.08)",
                     border: "3px solid rgba(255,255,255,0.75)",
-                    transform: "rotate(-2deg)",
-                    background: t.profileBg,
-                    position: "relative",
+                    borderRadius: 20,
                   }}
                 >
-                  <img
-                    src={big}
-                    alt="Profile"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "radial-gradient(ellipse at 30% 20%, rgba(255,220,180,0.15) 0%, transparent 60%)",
-                    }}
-                  />
+                  <div className="flip-front">
+                    <img
+                      src={big}
+                      alt="Profile"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          "radial-gradient(ellipse at 30% 20%, rgba(255,220,180,0.15) 0%, transparent 60%)",
+                      }}
+                    />
+                  </div>
+                  <div className="flip-back">
+                    <img
+                      src={profile}
+                      alt="Profile alternate"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          "radial-gradient(ellipse at 70% 80%, rgba(200,154,106,0.18) 0%, transparent 60%)",
+                      }}
+                    />
+                  </div>
                 </div>
+
                 <div
                   style={{
                     position: "absolute",

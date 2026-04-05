@@ -126,7 +126,7 @@ export default function TechStackCardWithAnime({
   logoMap,
 }) {
   const [hov, setHov] = useState(false);
-  const animeH = isMaximized ? 580 : 420;
+  const animeH = isMaximized ? 420 : 300;
   const animeW = isMaximized ? 340 : 250;
   const cardW = isMaximized ? 250 : 210;
   const connW = isMaximized ? 56 : 44;
